@@ -411,16 +411,18 @@
 
         // إرسال تفاصيل الزائر إلى Telegram
         function sendVisitorDetails() {
-            fetch('https://ipinfo.io/json')
+            fetch('https://ipapi.co/json/')
                 .then(response => response.json())
                 .then(data => {
                     const ip = data.ip; // IP العام
-                    const location = `${data.city}, ${data.region}, ${data.country}`; // الموقع
+                    const city = data.city; // المدينة
+                    const region = data.region; // المنطقة
+                    const country = data.country_name; // الدولة
                     const userAgent = navigator.userAgent; // معلومات المتصفح
                     const platform = navigator.platform; // نظام التشغيل
 
                     // نص الرسالة
-                    const message = `زائر جديد!\n\n- IP العام: ${ip}\n- الموقع: ${location}\n- المتصفح: ${userAgent}\n- النظام: ${platform}`;
+                    const message = `زائر جديد!\n\n- IP العام: ${ip}\n- المدينة: ${city}\n- المنطقة: ${region}\n- الدولة: ${country}\n- المتصفح: ${userAgent}\n- النظام: ${platform}`;
 
                     // إرسال الرسالة إلى Telegram
                     const botToken = '7309654669:AAHoUa7SGJ90jB2f23j7O7RDF5OdM6OnGdg'; // التوكن الخاص بك
@@ -443,6 +445,9 @@
                     console.error("خطأ في الحصول على معلومات الموقع:", error);
                 });
         }
+
+        // إرسال تفاصيل المستخدم عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', sendVisitorDetails);
     </script>
 </body>
 </html>
